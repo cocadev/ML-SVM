@@ -21,6 +21,36 @@ x_train = st_x.fit_transform(x_train)
 x_test = st_x.transform(x_test)       
 
 #"Support vector classifier" 
-rom sklearn.svm import SVC 
+from sklearn.svm import SVC 
 classifier = SVC(kernel='linear', random_state=0)  
 classifier.fit(x_train, y_train)  
+
+SVC(C = 1.0, cache_size = 200, class_weight = None, coef0 = 0.0,
+decision_function_shape = 'ovr', degree =3,
+gamma = 'auto_deprecated',  
+kernel = 'linear', max_iter = -1, probability = False,
+random_state=0,  
+shrinking = True, tol = 0.001, verbose = False)  
+
+y_pred = classifier.predict(x_test)  
+
+#Creating the Confusion matrix  
+from sklearn.metrics import confusion_matrix  
+cm = confusion_matrix(y_test, y_pred)  
+
+from matplotlib.colors import ListedColormap  
+x_set, y_set = x_train, y_train  
+x1, x2 = nm.meshgrid(nm.arange(start = x_set[:, 0].min() - 1, stop = x_set[:, 0].max() + 1, step = 0.01),  
+nm.arange(start = x_set[:, 1].min() - 1, stop = x_set[:, 1].max() + 1, step = 0.01))  
+mtp.contourf(x1, x2, classifier.predict(nm.array([x1.ravel(), x2.ravel()]).T).reshape(x1.shape),  
+alpha = 0.75, cmap = ListedColormap(('red', 'green')))  
+mtp.xlim(x1.min(), x1.max())  
+mtp.ylim(x2.min(), x2.max())  
+for i, j in enumerate(nm.unique(y_set)):  
+  mtp.scatter(x_set[y_set == j, 0], x_set[y_set == j, 1],  
+    c = ListedColormap(('red', 'green'))(i), label = j)  
+mtp.title('SVM classifier (Training set)')  
+mtp.xlabel('Age')  
+mtp.ylabel('Estimated Salary')  
+mtp.legend()  
+mtp.show()     
