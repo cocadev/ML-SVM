@@ -19,3 +19,8 @@ from sklearn.preprocessing import StandardScaler
 st_x = StandardScaler()    
 x_train = st_x.fit_transform(x_train)    
 x_test = st_x.transform(x_test)       
+
+#"Support vector classifier" 
+rom sklearn.svm import SVC 
+classifier = SVC(kernel='linear', random_state=0)  
+classifier.fit(x_train, y_train)  
